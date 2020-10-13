@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Title</title>
+  </head>
+  <body>
+    <button id="btn">下载</button>
+  </body>
+  <script src="node_modules/axios/dist/axios.min.js"></script>
+  <script>
+    const btn = document.getElementById("btn");
+
+    btn.onclick = function () {
+      axios({
+        method: "post",
+        url: "http://localhost:3000/download",
+        data: {
+          test: "test data",
+        },
+        responseType: "blob",
+      }).then((res) => {
+        const url = window.URL.createObjectURL(res.data);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "test.xlsx";
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      });
+    };
+  </script>
+</html>
